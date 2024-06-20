@@ -50,9 +50,9 @@ class StudentController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 442,
+                'status' => 422,
                 'errors' => $validator->messages()
-            ], 442);
+            ], 422);
         } else {
             $student = Student::create([
                 'name' => $request->name,
@@ -100,6 +100,19 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
+        $student = Student::find($id);
+        if ($student) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Data Ditemukan',
+                'student' => $student
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
     }
 
     /**
